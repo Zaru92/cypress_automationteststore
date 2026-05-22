@@ -6,6 +6,10 @@ class ProductsPage extends BasePage {
     this.getElement(productsSelectors.searchInput).clear().type(`${keyword}{enter}`);
   }
 
+  openFirstProductFromResults(): void {
+    this.getElement(productsSelectors.searchResultProductNames).first().click();
+  }
+
   shouldDisplaySearchResults(keyword: string): void {
     cy.location('search').should((search) => {
       const params = new URLSearchParams(search);
@@ -14,10 +18,7 @@ class ProductsPage extends BasePage {
     });
 
     this.shouldBeVisible(productsSelectors.searchResultsGrid);
-    this.getElement(productsSelectors.searchResultProductNames).should(
-      'have.length.greaterThan',
-      0,
-    );
+    this.shouldHaveElements(productsSelectors.searchResultProductNames);
   }
 
   shouldDisplayProductsMatchingKeyword(keyword: string): void {

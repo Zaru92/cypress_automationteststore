@@ -11,7 +11,15 @@ export abstract class BasePage {
     return cy.visit(path);
   }
 
+  protected clickElement(selector: string) {
+    return this.getElement(selector).click();
+  }
+
   protected shouldBeVisible(selector: string): void {
     this.getElement(selector).should('be.visible');
+  }
+
+  protected shouldHaveElements(selector: string) {
+    return this.getElement(selector).should('have.length.greaterThan', 0);
   }
 }
