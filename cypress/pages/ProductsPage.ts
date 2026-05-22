@@ -17,14 +17,15 @@ class ProductsPage extends BasePage {
     this.getElement(productsSelectors.productNameLinks).should('have.length.greaterThan', 0);
   }
 
-  shouldDisplayProductContainingText(expectedText: string): void {
-    this.getElement(productsSelectors.productNameLinks).should(($products) => {
-      const productNames = [...$products].map((product) =>
-        product.textContent?.trim().toLowerCase(),
-      );
-
-      expect(productNames.some((name) => name?.includes(expectedText.toLowerCase()))).to.eq(true);
-    });
+  shouldDisplayProductsMatchingKeyword(keyword: string): void {
+    const target = keyword.toLowerCase();
+    this.getElement(productsSelectors.productNameLinks)
+      .should('have.length.greaterThan', 0)
+      .each(($el) => {
+        expect($el.text().trim().toLowerCase(), 'every result must match keyword').to.include(
+          target,
+        );
+      });
   }
 }
 
