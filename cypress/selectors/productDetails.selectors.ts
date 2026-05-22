@@ -1,5 +1,5 @@
 export const productDetailsSelectors = {
-  productTitle: '.bgnone',
+  productTitle: 'h1.productname',
   productPrice: '.productfilneprice, .productprice',
   quantityInput: '#product_quantity',
   addToCartButton: '.cart',

@@ -13,6 +13,7 @@ class ProductDetailsPage extends BasePage {
 
   shouldDisplayProductTitle(): void {
     this.getElement(productDetailsSelectors.productTitle)
+      .should('be.visible')
       .invoke('text')
       .should((title) => {
         expect(title.trim().length).to.be.greaterThan(0);
