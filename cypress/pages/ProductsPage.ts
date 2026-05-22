@@ -7,8 +7,10 @@ class ProductsPage extends BasePage {
   }
 
   shouldDisplaySearchResults(keyword: string): void {
-    cy.location('href').should('include', 'product/search');
-    cy.location('href').should('include', `keyword=${keyword}`);
+    cy.location('pathname').should('include', 'product/search');
+    cy.location('search').should((search) => {
+      expect(new URLSearchParams(search).get('keyword')).to.eq(keyword);
+    });
 
     this.shouldBeVisible(productsSelectors.productGrid);
     this.getElement(productsSelectors.productNameLinks).should('have.length.greaterThan', 0);
