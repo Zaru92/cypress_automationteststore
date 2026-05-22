@@ -11,20 +11,24 @@ class ProductsPage extends BasePage {
   }
 
   shouldDisplaySearchResults(keyword: string): void {
-    cy.location('href').should('include', 'product/search');
-    cy.location('href').should('include', `keyword=${keyword}`);
+    cy.location('search').should((search) => {
+      const params = new URLSearchParams(search);
+      expect(params.get('rt')).to.eq('product/search');
+      expect(params.get('keyword')).to.eq(keyword);
+    });
 
     this.shouldBeVisible(productsSelectors.searchResultsGrid);
     this.shouldHaveElements(productsSelectors.searchResultProductNames);
   }
 
-  shouldDisplayProductContainingText(expectedText: string): void {
+  shouldDisplayProductsMatchingKeyword(keyword: string): void {
+    const target = keyword.toLowerCase();
     this.getElement(productsSelectors.searchResultProductNames).should(($products) => {
-      const productNames = [...$products].map((product) =>
-        product.textContent?.trim().toLowerCase(),
-      );
-
-      expect(productNames.some((name) => name?.includes(expectedText.toLowerCase()))).to.eq(true);
+      expect($products).to.have.length.greaterThan(0);
+      [...$products].forEach((el) => {
+        const name = el.textContent?.trim().toLowerCase() ?? '';
+        expect(name, 'every result must match keyword').to.include(target);
+      });
     });
   }
 }

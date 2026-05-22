@@ -6,5 +6,5 @@ export const searchProductFlow = (keyword: string): void => {
 
 export const verifySearchResultsFlow = (keyword: string): void => {
   productsPage.shouldDisplaySearchResults(keyword);
-  productsPage.shouldDisplayProductContainingText(keyword);
+  productsPage.shouldDisplayProductsMatchingKeyword(keyword);
 };
