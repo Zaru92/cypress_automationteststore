@@ -19,13 +19,13 @@ class ProductsPage extends BasePage {
 
   shouldDisplayProductsMatchingKeyword(keyword: string): void {
     const target = keyword.toLowerCase();
-    this.getElement(productsSelectors.productNameLinks)
-      .should('have.length.greaterThan', 0)
-      .each(($el) => {
-        expect($el.text().trim().toLowerCase(), 'every result must match keyword').to.include(
-          target,
-        );
+    this.getElement(productsSelectors.productNameLinks).should(($products) => {
+      expect($products).to.have.length.greaterThan(0);
+      [...$products].forEach((el) => {
+        const name = el.textContent?.trim().toLowerCase() ?? '';
+        expect(name, 'every result must match keyword').to.include(target);
       });
+    });
   }
 }
 
