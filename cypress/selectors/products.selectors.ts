@@ -1,6 +1,6 @@
 export const productsSelectors = {
   searchInput: '#filter_keyword',
-  productNameLinks: '.fixed_wrapper .prdocutname',
-  productGrid: '.thumbnails',
+  searchResultsGrid: '.contentpanel .thumbnails.grid',
+  searchResultProductNames: '.contentpanel .thumbnails.grid .prdocutname',
   mainHeading: '.maintext',
 } as const;

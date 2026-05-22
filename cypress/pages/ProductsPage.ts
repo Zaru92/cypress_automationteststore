@@ -13,13 +13,16 @@ class ProductsPage extends BasePage {
       expect(params.get('keyword')).to.eq(keyword);
     });
 
-    this.shouldBeVisible(productsSelectors.productGrid);
-    this.getElement(productsSelectors.productNameLinks).should('have.length.greaterThan', 0);
+    this.shouldBeVisible(productsSelectors.searchResultsGrid);
+    this.getElement(productsSelectors.searchResultProductNames).should(
+      'have.length.greaterThan',
+      0,
+    );
   }
 
   shouldDisplayProductsMatchingKeyword(keyword: string): void {
     const target = keyword.toLowerCase();
-    this.getElement(productsSelectors.productNameLinks).should(($products) => {
+    this.getElement(productsSelectors.searchResultProductNames).should(($products) => {
       expect($products).to.have.length.greaterThan(0);
       [...$products].forEach((el) => {
         const name = el.textContent?.trim().toLowerCase() ?? '';
