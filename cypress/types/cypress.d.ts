@@ -20,6 +20,16 @@ declare global {
        * Verifies that search results are displayed for provided keyword.
        */
       shouldSeeSearchResults(keyword: string): Chainable<void>;
+
+      /**
+       * Opens first product from search results.
+       */
+      openFirstProductFromSearchResults(): Chainable<void>;
+
+      /**
+       * Verifies that product details page is visible.
+       */
+      shouldSeeProductDetailsPage(): Chainable<void>;
     }
   }
 }

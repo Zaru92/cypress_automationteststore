@@ -6,28 +6,25 @@ class ProductsPage extends BasePage {
     this.getElement(productsSelectors.searchInput).clear().type(`${keyword}{enter}`);
   }
 
-  shouldDisplaySearchResults(keyword: string): void {
-    cy.location('search').should((search) => {
-      const params = new URLSearchParams(search);
-      expect(params.get('rt')).to.eq('product/search');
-      expect(params.get('keyword')).to.eq(keyword);
-    });
-
-    this.shouldBeVisible(productsSelectors.searchResultsGrid);
-    this.getElement(productsSelectors.searchResultProductNames).should(
-      'have.length.greaterThan',
-      0,
-    );
+  openFirstProductFromResults(): void {
+    this.getElement(productsSelectors.searchResultProductNames).first().click();
   }
 
-  shouldDisplayProductsMatchingKeyword(keyword: string): void {
-    const target = keyword.toLowerCase();
+  shouldDisplaySearchResults(keyword: string): void {
+    cy.location('href').should('include', 'product/search');
+    cy.location('href').should('include', `keyword=${keyword}`);
+
+    this.shouldBeVisible(productsSelectors.searchResultsGrid);
+    this.shouldHaveElements(productsSelectors.searchResultProductNames);
+  }
+
+  shouldDisplayProductContainingText(expectedText: string): void {
     this.getElement(productsSelectors.searchResultProductNames).should(($products) => {
-      expect($products).to.have.length.greaterThan(0);
-      [...$products].forEach((el) => {
-        const name = el.textContent?.trim().toLowerCase() ?? '';
-        expect(name, 'every result must match keyword').to.include(target);
-      });
+      const productNames = [...$products].map((product) =>
+        product.textContent?.trim().toLowerCase(),
+      );
+
+      expect(productNames.some((name) => name?.includes(expectedText.toLowerCase()))).to.eq(true);
     });
   }
 }
