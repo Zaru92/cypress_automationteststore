@@ -1,6 +1,7 @@
 import { BasePage } from './BasePage';
 import { cartSelectors } from '../selectors/cart.selectors';
 import { extractMoneyValues } from '../utils/money';
+import { exactTextPattern } from '../utils/text';
 
 class CartPage extends BasePage {
   assertLoaded(): void {
@@ -11,7 +12,7 @@ class CartPage extends BasePage {
   }
 
   shouldContainProduct(productName: string): void {
-    this.getElement(cartSelectors.rowProductLink).should(($links) => {
+    this.getElement(cartSelectors.cartProductLinks).should(($links) => {
       const exactMatch = [...$links].some((link) => link.textContent?.trim() === productName);
       expect(exactMatch, `cart should contain "${productName}"`).to.equal(true);
     });
@@ -43,14 +44,11 @@ class CartPage extends BasePage {
     });
   }
 
-  private getProductRow(productName: string): Cypress.Chainable<JQuery<HTMLElement>> {
-    return this.getElement(cartSelectors.cartRows).then(($rows) =>
-      $rows.filter((_, row) =>
-        Array.from(row.querySelectorAll(cartSelectors.rowProductLink)).some(
-          (link) => link.textContent?.trim() === productName,
-        ),
-      ),
-    );
+  private getProductRow(productName: string): Cypress.Chainable<JQuery<HTMLTableRowElement>> {
+    return cy
+      .contains(cartSelectors.cartProductLinks, exactTextPattern(productName))
+      .parents('tr')
+      .first();
   }
 }
 
