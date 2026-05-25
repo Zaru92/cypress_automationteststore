@@ -45,6 +45,16 @@ declare global {
        * Verifies that product is visible in shopping cart.
        */
       shouldSeeProductInCart(productName: string): Chainable<void>;
+
+      /**
+       * Verifies product quantity in shopping cart.
+       */
+      shouldSeeProductQuantityInCart(productName: string, quantity: number): Chainable<void>;
+
+      /**
+       * Verifies that product total price equals unit price multiplied by quantity.
+       */
+      shouldSeeCorrectProductTotalInCart(productName: string): Chainable<void>;
     }
   }
 }

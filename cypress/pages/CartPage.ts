@@ -1,5 +1,6 @@
 import { BasePage } from './BasePage';
 import { cartSelectors } from '../selectors/cart.selectors';
+import { extractMoneyValues } from '../utils/money';
 
 class CartPage extends BasePage {
   assertLoaded(): void {
@@ -7,10 +8,41 @@ class CartPage extends BasePage {
 
     this.shouldBeVisible(cartSelectors.cartHeading);
     this.getElement(cartSelectors.cartHeading).should('contain.text', 'Shopping Cart');
+    this.shouldBeVisible(cartSelectors.cartTable);
   }
 
   shouldContainProduct(productName: string): void {
     cy.contains(cartSelectors.cartContentPanel, productName).should('be.visible');
+  }
+
+  shouldHaveProductQuantity(productName: string, expectedQuantity: number): void {
+    this.getProductRow(productName).within(() => {
+      this.getElement(cartSelectors.productQuantityInput).should(
+        'have.value',
+        expectedQuantity.toString(),
+      );
+    });
+  }
+
+  shouldHaveCorrectProductTotal(productName: string): void {
+    this.getProductRow(productName).then(($row) => {
+      const rawQuantity = $row.find(cartSelectors.productQuantityInput).val();
+      const quantity = Number(rawQuantity);
+      const moneyValues = extractMoneyValues($row.text());
+
+      expect(quantity, 'cart product quantity').to.be.greaterThan(0);
+      expect(moneyValues.length, 'money values in cart row').to.be.greaterThan(1);
+
+      const unitPrice = moneyValues[0];
+      const displayedTotal = moneyValues[moneyValues.length - 1];
+      const expectedTotal = Number((unitPrice * quantity).toFixed(2));
+
+      expect(displayedTotal, 'cart product total').to.eq(expectedTotal);
+    });
+  }
+
+  private getProductRow(productName: string): Cypress.Chainable<JQuery<HTMLElement>> {
+    return cy.contains(cartSelectors.cartRows, productName);
   }
 }
 

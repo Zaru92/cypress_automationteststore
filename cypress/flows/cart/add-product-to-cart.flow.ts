@@ -21,3 +21,14 @@ export const verifyShoppingCartPageFlow = (): void => {
 export const verifyProductInCartFlow = (productName: string): void => {
   cartPage.shouldContainProduct(productName);
 };
+
+export const verifyProductQuantityInCartFlow = (
+  productName: string,
+  expectedQuantity: number,
+): void => {
+  cartPage.shouldHaveProductQuantity(productName, expectedQuantity);
+};
+
+export const verifyCorrectProductTotalInCartFlow = (productName: string): void => {
+  cartPage.shouldHaveCorrectProductTotal(productName);
+};
