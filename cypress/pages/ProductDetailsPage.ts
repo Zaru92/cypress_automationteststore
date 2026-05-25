@@ -20,6 +20,14 @@ class ProductDetailsPage extends BasePage {
       });
   }
 
+  shouldHaveNonEmptyTitle(): void {
+    this.getElement(productDetailsSelectors.productTitle)
+      .invoke('text')
+      .should((title) => {
+        expect(title.trim().length, 'product title must not be empty').to.be.greaterThan(0);
+      });
+  }
+
   addCurrentProductToCart(): void {
     this.clickElement(productDetailsSelectors.addToCartButton);
   }

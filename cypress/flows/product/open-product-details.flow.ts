@@ -7,4 +7,5 @@ export const openFirstProductFromSearchResultsFlow = (): void => {
 
 export const verifyProductDetailsPageFlow = (): void => {
   productDetailsPage.assertLoaded();
+  productDetailsPage.shouldHaveNonEmptyTitle();
 };

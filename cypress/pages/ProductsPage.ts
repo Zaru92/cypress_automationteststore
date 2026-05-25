@@ -11,7 +11,10 @@ class ProductsPage extends BasePage {
   }
 
   openProductFromResultsByName(productName: string): void {
-    cy.contains(productsSelectors.searchResultProductNames, productName).click();
+    this.getElement(productsSelectors.searchResultProductNames)
+      .filter((_, el) => el.textContent?.trim() === productName)
+      .first()
+      .click();
   }
 
   shouldDisplaySearchResults(keyword: string): void {
