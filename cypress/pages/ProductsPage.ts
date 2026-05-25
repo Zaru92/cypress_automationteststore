@@ -12,7 +12,7 @@ class ProductsPage extends BasePage {
 
   openProductFromResultsByName(productName: string): void {
     this.getElement(productsSelectors.searchResultProductNames)
-      .filter((_, el) => el.textContent?.trim() === productName)
+      .then(($items) => $items.filter((_, el) => el.textContent?.trim() === productName))
       .first()
       .click();
   }

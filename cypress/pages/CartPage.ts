@@ -11,7 +11,10 @@ class CartPage extends BasePage {
   }
 
   shouldContainProduct(productName: string): void {
-    cy.contains(cartSelectors.cartContentPanel, productName).should('be.visible');
+    this.getElement(cartSelectors.rowProductLink).should(($links) => {
+      const exactMatch = [...$links].some((link) => link.textContent?.trim() === productName);
+      expect(exactMatch, `cart should contain "${productName}"`).to.equal(true);
+    });
   }
 
   shouldHaveProductQuantity(productName: string, expectedQuantity: number): void {
@@ -41,7 +44,13 @@ class CartPage extends BasePage {
   }
 
   private getProductRow(productName: string): Cypress.Chainable<JQuery<HTMLElement>> {
-    return cy.contains(cartSelectors.cartRows, productName);
+    return this.getElement(cartSelectors.cartRows).then(($rows) =>
+      $rows.filter((_, row) =>
+        Array.from(row.querySelectorAll(cartSelectors.rowProductLink)).some(
+          (link) => link.textContent?.trim() === productName,
+        ),
+      ),
+    );
   }
 }
 
