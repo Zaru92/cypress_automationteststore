@@ -11,13 +11,17 @@ class ProductDetailsPage extends BasePage {
     this.shouldBeVisible(productDetailsSelectors.addToCartButton);
   }
 
-  shouldDisplayProductTitle(): void {
+  shouldDisplayProductTitle(expectedTitle: string): void {
     this.getElement(productDetailsSelectors.productTitle)
       .should('be.visible')
       .invoke('text')
       .should((title) => {
-        expect(title.trim().length).to.be.greaterThan(0);
+        expect(title.trim()).to.eq(expectedTitle);
       });
+  }
+
+  addCurrentProductToCart(): void {
+    this.clickElement(productDetailsSelectors.addToCartButton);
   }
 }
 

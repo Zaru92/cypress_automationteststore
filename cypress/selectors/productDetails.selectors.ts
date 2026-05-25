@@ -1,8 +1,8 @@
 export const productDetailsSelectors = {
-  productTitle: 'h1.productname',
+  productTitle: 'h1 .bgnone',
   productPrice: '.productfilneprice, .productprice',
   quantityInput: '#product_quantity',
-  addToCartButton: '.cart',
+  addToCartButton: '.productpagecart a.cart, a.cart',
   productDescriptionTab: 'a[href="#description"]',
   productDescription: '#description',
 } as const;
