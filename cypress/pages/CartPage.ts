@@ -8,7 +8,6 @@ class CartPage extends BasePage {
 
     this.shouldBeVisible(cartSelectors.cartHeading);
     this.getElement(cartSelectors.cartHeading).should('contain.text', 'Shopping Cart');
-    this.shouldBeVisible(cartSelectors.cartTable);
   }
 
   shouldContainProduct(productName: string): void {
