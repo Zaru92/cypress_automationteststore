@@ -30,6 +30,21 @@ declare global {
        * Verifies that product details page is visible.
        */
       shouldSeeProductDetailsPage(): Chainable<void>;
+
+      /**
+       * Searches product, opens product details and adds it to cart.
+       */
+      addProductToCart(productName: string, searchKeyword?: string): Chainable<void>;
+
+      /**
+       * Verifies that shopping cart page is visible.
+       */
+      shouldSeeShoppingCartPage(): Chainable<void>;
+
+      /**
+       * Verifies that product is visible in shopping cart.
+       */
+      shouldSeeProductInCart(productName: string): Chainable<void>;
     }
   }
 }

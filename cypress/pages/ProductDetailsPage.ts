@@ -11,13 +11,25 @@ class ProductDetailsPage extends BasePage {
     this.shouldBeVisible(productDetailsSelectors.addToCartButton);
   }
 
-  shouldDisplayProductTitle(): void {
+  shouldDisplayProductTitle(expectedTitle: string): void {
     this.getElement(productDetailsSelectors.productTitle)
       .should('be.visible')
       .invoke('text')
       .should((title) => {
-        expect(title.trim().length).to.be.greaterThan(0);
+        expect(title.trim()).to.eq(expectedTitle);
       });
+  }
+
+  shouldHaveNonEmptyTitle(): void {
+    this.getElement(productDetailsSelectors.productTitle)
+      .invoke('text')
+      .should((title) => {
+        expect(title.trim().length, 'product title must not be empty').to.be.greaterThan(0);
+      });
+  }
+
+  addCurrentProductToCart(): void {
+    this.clickElement(productDetailsSelectors.addToCartButton);
   }
 }
 

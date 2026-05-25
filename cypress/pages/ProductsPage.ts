@@ -10,6 +10,13 @@ class ProductsPage extends BasePage {
     this.getElement(productsSelectors.searchResultProductNames).first().click();
   }
 
+  openProductFromResultsByName(productName: string): void {
+    this.getElement(productsSelectors.searchResultProductNames)
+      .filter((_, el) => el.textContent?.trim() === productName)
+      .first()
+      .click();
+  }
+
   shouldDisplaySearchResults(keyword: string): void {
     cy.location('search').should((search) => {
       const params = new URLSearchParams(search);
