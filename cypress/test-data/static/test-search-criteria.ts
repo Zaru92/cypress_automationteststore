@@ -7,4 +7,12 @@ export const productSearchCriteria = {
   specialCharacters: {
     keyword: '!@#$%^&*()_+',
   },
+
+  mockedEmptyResults: {
+    keyword: 'mocked-empty-product-qa',
+  },
+
+  mockedServerError: {
+    keyword: 'mocked-server-error-product-qa',
+  },
 } as const satisfies Record<string, ProductSearchCriteria>;

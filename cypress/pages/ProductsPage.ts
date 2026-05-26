@@ -36,6 +36,24 @@ class ProductsPage extends BasePage {
       });
     });
   }
+
+  shouldDisplayNoSearchResultsMessage(): void {
+    this.shouldBeVisible(productsSelectors.mockedSearchResults);
+    this.shouldBeVisible(productsSelectors.mockedEmptySearchResultsMessage);
+    this.getElement(productsSelectors.mockedEmptySearchResultsMessage).should(
+      'contain.text',
+      'No products were found',
+    );
+  }
+
+  shouldDisplaySearchServerErrorMessage(): void {
+    this.shouldBeVisible(productsSelectors.serverErrorState);
+    this.shouldBeVisible(productsSelectors.serverErrorMessage);
+    this.getElement(productsSelectors.serverErrorMessage).should(
+      'contain.text',
+      'Product search is temporarily unavailable',
+    );
+  }
 }
 
 export const productsPage = new ProductsPage();

@@ -108,6 +108,26 @@ declare global {
        * Gets not existing page using HTTP request.
        */
       apiGetNotExistingPage(): Chainable<HtmlApiResponse>;
+
+      /**
+       * Mocks product search response with empty results.
+       */
+      mockEmptyProductSearchResponse(keyword: string): Chainable<void>;
+
+      /**
+       * Verifies that no search results message is visible.
+       */
+      shouldSeeNoSearchResultsMessage(): Chainable<void>;
+
+      /**
+       * Mocks product search response with server error.
+       */
+      mockProductSearchServerErrorResponse(keyword: string): Chainable<void>;
+
+      /**
+       * Verifies that product search server error message is visible.
+       */
+      shouldSeeProductSearchServerErrorMessage(): Chainable<void>;
     }
   }
 }
