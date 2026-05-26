@@ -2,11 +2,18 @@ import { expectSuccessfulHtmlResponse } from './http-response.validator';
 import { productsSelectors } from '../../selectors/products.selectors';
 import type { HtmlApiResponse } from '../../types/api.types';
 
-const parseSearchResultNames = (body: string): string[] =>
-  Cypress.$(body)
+const SKU_SUFFIX = /\s*\([^)]*\)\s*$/;
+
+const normalizeResultName = (raw: string): string =>
+  raw.replace(/\s+/g, ' ').replace(SKU_SUFFIX, '').trim();
+
+const parseSearchResultNames = (body: string): string[] => {
+  const names = Cypress.$(body)
     .find(productsSelectors.searchResultProductNames)
-    .map((_, el) => Cypress.$(el).text().trim())
+    .map((_, el) => normalizeResultName(Cypress.$(el).text()))
     .get();
+  return [...new Set(names)];
+};
 
 export const expectProductSearchResultsResponse = (
   response: HtmlApiResponse,
@@ -17,10 +24,9 @@ export const expectProductSearchResultsResponse = (
   const resultNames = parseSearchResultNames(response.body);
 
   expect(resultNames, 'search results').to.have.length.greaterThan(0);
-  expect(
-    resultNames.some((name) => name.includes(expectedProductName)),
-    `search results contain "${expectedProductName}"`,
-  ).to.equal(true);
+  expect(resultNames, `search results include exact "${expectedProductName}"`).to.include(
+    expectedProductName,
+  );
 };
 
 export const expectProductSearchWithoutKnownProductResponse = (response: HtmlApiResponse): void => {
