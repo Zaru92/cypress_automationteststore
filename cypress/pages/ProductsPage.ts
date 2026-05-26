@@ -1,5 +1,6 @@
 import { BasePage } from './BasePage';
 import { productsSelectors } from '../selectors/products.selectors';
+import { exactTextPattern } from '../utils/text';
 
 class ProductsPage extends BasePage {
   searchForProduct(keyword: string): void {
@@ -11,10 +12,7 @@ class ProductsPage extends BasePage {
   }
 
   openProductFromResultsByName(productName: string): void {
-    this.getElement(productsSelectors.searchResultProductNames)
-      .filter((_, el) => el.textContent?.trim() === productName)
-      .first()
-      .click();
+    cy.contains(productsSelectors.searchResultProductNames, exactTextPattern(productName)).click();
   }
 
   shouldDisplaySearchResults(keyword: string): void {
