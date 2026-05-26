@@ -36,6 +36,13 @@ class ProductsPage extends BasePage {
       });
     });
   }
+
+  shouldDisplayNoSearchResultsMessage(): void {
+    cy.contains(
+      productsSelectors.searchResultsContainer,
+      productsSelectors.searchNoResultsMessage,
+    ).should('be.visible');
+  }
 }
 
 export const productsPage = new ProductsPage();
