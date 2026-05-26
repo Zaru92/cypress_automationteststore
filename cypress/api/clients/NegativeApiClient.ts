@@ -7,6 +7,7 @@ class NegativeApiClient {
       method: 'GET',
       url: negativeEndpoints.notExistingPage,
       failOnStatusCode: false,
+      followRedirect: false,
     });
   }
 }

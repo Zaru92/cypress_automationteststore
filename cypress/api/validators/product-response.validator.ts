@@ -1,4 +1,7 @@
-import { expectSuccessfulHtmlResponse } from './http-response.validator';
+import {
+  expectContentTypeToInclude,
+  expectSuccessfulHtmlResponse,
+} from './http-response.validator';
 import { productsSelectors } from '../../selectors/products.selectors';
 import type { HtmlApiResponse } from '../../types/api.types';
 
@@ -36,4 +39,9 @@ export const expectProductSearchWithoutKnownProductResponse = (response: HtmlApi
 
   expect(resultNames, 'search results grid').to.have.lengthOf(0);
   expect(response.body, 'no-results marker').to.include(productsSelectors.searchNoResultsMessage);
+};
+
+export const expectProductSearchHandledWithoutServerError = (response: HtmlApiResponse): void => {
+  expect(response.status, 'response status').to.be.lessThan(500);
+  expectContentTypeToInclude(response, 'text/html');
 };

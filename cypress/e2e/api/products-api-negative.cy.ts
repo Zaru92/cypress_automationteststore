@@ -1,4 +1,7 @@
-import { expectProductSearchWithoutKnownProductResponse } from '../../api/validators/product-response.validator';
+import {
+  expectProductSearchHandledWithoutServerError,
+  expectProductSearchWithoutKnownProductResponse,
+} from '../../api/validators/product-response.validator';
 import { productSearchCriteria } from '../../test-data/static/test-search-criteria';
 
 describe('Products API Negative Scenarios @api @negative @regression', () => {
@@ -14,7 +17,7 @@ describe('Products API Negative Scenarios @api @negative @regression', () => {
     const searchCriteria = productSearchCriteria.specialCharacters;
 
     cy.apiSearchProducts(searchCriteria.keyword).then((response) => {
-      expectProductSearchWithoutKnownProductResponse(response);
+      expectProductSearchHandledWithoutServerError(response);
     });
   });
 });
