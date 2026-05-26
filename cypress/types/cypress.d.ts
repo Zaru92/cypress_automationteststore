@@ -1,4 +1,5 @@
 import type { LoginCredentials } from './user.types';
+import type { HtmlApiResponse } from './api.types';
 
 declare global {
   namespace Cypress {
@@ -92,6 +93,21 @@ declare global {
        * Verifies that checkout button is not visible.
        */
       shouldNotSeeCheckoutButton(): Chainable<void>;
+
+      /**
+       * Searches products using HTTP request.
+       */
+      apiSearchProducts(keyword: string): Chainable<HtmlApiResponse>;
+
+      /**
+       * Gets shopping cart using HTTP request.
+       */
+      apiGetCart(): Chainable<HtmlApiResponse>;
+
+      /**
+       * Gets not existing page using HTTP request.
+       */
+      apiGetNotExistingPage(): Chainable<HtmlApiResponse>;
     }
   }
 }
