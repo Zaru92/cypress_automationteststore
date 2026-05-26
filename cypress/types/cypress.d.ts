@@ -77,6 +77,21 @@ declare global {
        * Verifies that login error is visible.
        */
       shouldSeeLoginError(): Chainable<void>;
+
+      /**
+       * Opens shopping cart page.
+       */
+      openShoppingCart(): Chainable<void>;
+
+      /**
+       * Verifies that shopping cart is empty.
+       */
+      shouldSeeEmptyShoppingCart(): Chainable<void>;
+
+      /**
+       * Verifies that checkout button is not visible.
+       */
+      shouldNotSeeCheckoutButton(): Chainable<void>;
     }
   }
 }
