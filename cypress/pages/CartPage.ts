@@ -4,6 +4,10 @@ import { extractMoneyValues } from '../utils/money';
 import { exactTextPattern } from '../utils/text';
 
 class CartPage extends BasePage {
+  open(): void {
+    this.visit('/index.php?rt=checkout/cart');
+  }
+
   assertLoaded(): void {
     cy.location('href').should('include', 'checkout/cart');
 
@@ -42,6 +46,21 @@ class CartPage extends BasePage {
 
       expect(displayedTotal, 'cart product total').to.eq(expectedTotal);
     });
+  }
+
+  shouldBeEmpty(): void {
+    cy.location('href').should('include', 'checkout/cart');
+
+    this.shouldBeVisible(cartSelectors.cartHeading);
+    this.getElement(cartSelectors.cartHeading).should('contain.text', 'Shopping Cart');
+    this.getElement(cartSelectors.emptyCartMessage).should(
+      'contain.text',
+      'Your shopping cart is empty!',
+    );
+  }
+
+  shouldNotDisplayCheckoutButton(): void {
+    this.getElement(cartSelectors.checkoutButton).should('not.exist');
   }
 
   private getProductRow(productName: string): Cypress.Chainable<JQuery<HTMLTableRowElement>> {
