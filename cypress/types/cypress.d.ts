@@ -1,3 +1,5 @@
+import type { LoginCredentials } from './user.types';
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -55,6 +57,26 @@ declare global {
        * Verifies that product total price equals unit price multiplied by quantity.
        */
       shouldSeeCorrectProductTotalInCart(productName: string): Chainable<void>;
+
+      /**
+       * Opens login page.
+       */
+      openLoginPage(): Chainable<void>;
+
+      /**
+       * Verifies that login page is visible.
+       */
+      shouldSeeLoginPage(): Chainable<void>;
+
+      /**
+       * Logs in using provided credentials.
+       */
+      loginWithCredentials(credentials: LoginCredentials): Chainable<void>;
+
+      /**
+       * Verifies that login error is visible.
+       */
+      shouldSeeLoginError(): Chainable<void>;
     }
   }
 }
