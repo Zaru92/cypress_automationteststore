@@ -15,6 +15,10 @@ export abstract class BasePage {
     return this.getElement(selector).click();
   }
 
+  protected clearAndType(selector: string, value: string): Cypress.Chainable<JQuery<HTMLElement>> {
+    return this.getElement(selector).clear().type(value);
+  }
+
   protected shouldBeVisible(selector: string): void {
     this.getElement(selector).should('be.visible');
   }
