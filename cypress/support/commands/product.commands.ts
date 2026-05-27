@@ -9,7 +9,9 @@ import {
 import { logStep } from '../log';
 import {
   mockEmptyProductSearchResponseFlow,
+  mockProductSearchServerErrorResponseFlow,
   verifyNoSearchResultsMessageFlow,
+  verifyProductSearchServerErrorMessageFlow,
 } from '../../flows/product/mocked-product-search.flow';
 
 Cypress.Commands.add('searchProduct', (keyword: string) => {
@@ -40,4 +42,20 @@ Cypress.Commands.add('mockEmptyProductSearchResponse', (keyword: string) => {
 Cypress.Commands.add('shouldSeeNoSearchResultsMessage', () => {
   logStep('shouldSeeNoSearchResultsMessage', 'Verify no search results message is visible');
   verifyNoSearchResultsMessageFlow();
+});
+
+Cypress.Commands.add('mockProductSearchServerErrorResponse', (keyword: string) => {
+  logStep(
+    'mockProductSearchServerErrorResponse',
+    `Mock product search server error response: ${keyword}`,
+  );
+  mockProductSearchServerErrorResponseFlow(keyword);
+});
+
+Cypress.Commands.add('shouldSeeProductSearchServerErrorMessage', () => {
+  logStep(
+    'shouldSeeProductSearchServerErrorMessage',
+    'Verify product search server error message is visible',
+  );
+  verifyProductSearchServerErrorMessageFlow();
 });

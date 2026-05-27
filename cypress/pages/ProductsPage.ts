@@ -43,6 +43,15 @@ class ProductsPage extends BasePage {
       productsSelectors.searchNoResultsMessage,
     ).should('be.visible');
   }
+
+  shouldDisplaySearchServerErrorMessage(): void {
+    this.shouldBeVisible(productsSelectors.serverErrorState);
+    this.shouldBeVisible(productsSelectors.serverErrorMessage);
+    this.getElement(productsSelectors.serverErrorMessage).should(
+      'contain.text',
+      'Product search is temporarily unavailable',
+    );
+  }
 }
 
 export const productsPage = new ProductsPage();
