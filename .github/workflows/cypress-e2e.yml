@@ -74,9 +74,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Clean reports
-        run: npm run report:clean
-
       - name: Run Cypress regression tests
         id: cypress
         uses: cypress-io/github-action@v7
@@ -109,9 +106,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-
-      - name: Clean reports
-        run: npm run report:clean
 
       - name: Run selected Cypress test group
         id: cypress
