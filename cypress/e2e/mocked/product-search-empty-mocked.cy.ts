@@ -1,6 +1,6 @@
 import { productSearchCriteria } from '../../test-data/static/test-search-criteria';
 
-describe('Mocked Product Search @mocked @ui @regression', () => {
+describe('Mocked Product Search', { tags: ['@mocked', '@ui', '@regression'] }, () => {
   it('should display empty state when product search returns no results', () => {
     const searchCriteria = productSearchCriteria.mockedEmptyResults;
 

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM"],
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "@cypress/grep"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,

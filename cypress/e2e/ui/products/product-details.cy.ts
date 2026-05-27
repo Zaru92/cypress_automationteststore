@@ -1,6 +1,6 @@
 import { buildProductSearchData } from '@test-data/factories/product-search.factory';
 
-describe('Product Details @ui @regression', () => {
+describe('Product Details', { tags: ['@ui', '@regression'] }, () => {
   it('should open product details page from search results', () => {
     const { keyword } = buildProductSearchData();
 

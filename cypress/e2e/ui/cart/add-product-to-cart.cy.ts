@@ -1,6 +1,6 @@
 import { testProducts } from '../../../test-data/static/test-products';
 
-describe('Shopping Cart @ui @smoke', () => {
+describe('Shopping Cart', { tags: ['@ui', '@smoke'] }, () => {
   it('should add selected product to cart', () => {
     const product = testProducts.curlsToStraightShampoo;
 
