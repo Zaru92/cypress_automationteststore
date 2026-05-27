@@ -118,6 +118,16 @@ declare global {
        * Verifies that no search results message is visible.
        */
       shouldSeeNoSearchResultsMessage(): Chainable<void>;
+
+      /**
+       * Mocks product search response with server error.
+       */
+      mockProductSearchServerErrorResponse(keyword: string): Chainable<void>;
+
+      /**
+       * Verifies that product search server error message is visible.
+       */
+      shouldSeeProductSearchServerErrorMessage(): Chainable<void>;
     }
   }
 }
