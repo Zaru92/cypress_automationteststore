@@ -17,8 +17,8 @@ npm run cy:run:firefox           # headless in Firefox
 # Run a single spec (no dedicated script):
 npx cypress run --spec 'cypress/e2e/ui/navigation/home-page-healthcheck.cy.ts'
 
-# Run by Mocha grep (matches `describe` / `it` text, used for `@ui @smoke` style tags):
-npx cypress run --env grep='@smoke'
+# Run by @cypress/grep tag (the test:* npm scripts wrap this for common tags):
+npx cypress run --expose grepTags=@smoke
 
 npm run typecheck                # tsc --noEmit
 npm run lint                     # eslint .
@@ -100,3 +100,7 @@ These directories exist with their path aliases reserved but contain no implemen
 - `retries: { runMode: 1, openMode: 0 }` — one retry in headless CI runs, none in interactive mode.
 - Viewport: 1440×900.
 - `specPattern: 'cypress/e2e/**/*.cy.ts'` — specs must end in `.cy.ts` and live under `cypress/e2e/`.
+
+## Reporting
+
+Allure results are auto-emitted by `allure-cypress` (registered in `cypress.config.ts:setupNodeEvents` and imported in `cypress/support/e2e.ts`). Spec metadata uses the `setAllureMetadata` helper at `cypress/support/allure.ts` — see `REPORTING.md` for the full generate/open workflow and the Allure-3-vs-2 caveats. Don't remove the `allure-cypress` import from `cypress/support/e2e.ts` or results stop being emitted.

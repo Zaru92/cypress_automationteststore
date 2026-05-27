@@ -2,6 +2,8 @@
 
 This is a Cypress + TypeScript E2E testing portfolio project.
 
+See `CLAUDE.md` for the project's 4-layer architecture (selectors → pages → flows → commands → specs), shared conventions, and TypeScript/lint rules; reviewers should flag layer-skipping. See `REPORTING.md` for the Allure setup.
+
 ## Review guidelines
 
 When reviewing pull requests, focus on:
@@ -37,6 +39,7 @@ Treat the following as important issues:
 - hardcoded data that should be moved to fixtures or factories
 - duplicated logic across specs
 - TypeScript types that are too broad, such as unnecessary any
+- specs that bypass the 4-layer stack (e.g. a spec importing a selector or page object directly, or a page object called from a spec)
 
 Do not focus on:
 

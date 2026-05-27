@@ -1,7 +1,16 @@
+import { setAllureMetadata } from '../../../support/allure';
 import { testProducts } from '../../../test-data/static/test-products';
 
 describe('Shopping Cart Summary', { tags: ['@ui', '@regression'] }, () => {
   it('should display correct quantity and total for added product', () => {
+    setAllureMetadata({
+      epic: 'E-commerce',
+      feature: 'Shopping Cart',
+      story: 'Validate cart quantity and total price',
+      severity: 'normal',
+      tags: ['ui', 'regression'],
+    });
+
     const product = testProducts.curlsToStraightShampoo;
 
     cy.openHomePage();

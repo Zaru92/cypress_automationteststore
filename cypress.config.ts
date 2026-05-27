@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress';
 import { plugin as registerGrepPlugin } from '@cypress/grep/plugin';
+import { allureCypress } from 'allure-cypress/reporter';
 
 export default defineConfig({
   expose: {
@@ -33,8 +34,12 @@ export default defineConfig({
       openMode: 0,
     },
 
-    setupNodeEvents(_on, config) {
+    setupNodeEvents(on, config) {
       registerGrepPlugin(config);
+
+      allureCypress(on, config, {
+        resultsDir: 'reports/allure-results',
+      });
 
       return config;
     },
