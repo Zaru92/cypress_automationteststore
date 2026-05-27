@@ -1,0 +1,131 @@
+name: Cypress E2E Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      test_group:
+        description: 'Test group to run'
+        required: true
+        default: 'smoke'
+        type: choice
+        options:
+          - smoke
+          - regression
+          - api
+          - mocked
+          - negative
+          - full
+
+jobs:
+  cypress-smoke:
+    name: Smoke tests
+    runs-on: ubuntu-24.04
+
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run Cypress smoke tests
+        id: cypress
+        uses: cypress-io/github-action@v7
+        with:
+          command: npm run test:ci:smoke
+
+      - name: Generate Allure report
+        if: always() && steps.cypress.outcome != 'skipped'
+        run: npm run report:generate
+
+      - name: Upload Cypress and Allure artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-smoke-artifacts
+          path: |
+            reports/allure-results
+            reports/allure-report
+            reports/screenshots
+            reports/videos
+          if-no-files-found: ignore
+          retention-days: 7
+
+  cypress-cross-browser:
+    name: Cross-browser regression - ${{ matrix.browser }}
+    runs-on: ubuntu-24.04
+
+    if: github.event_name == 'push'
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser:
+          - chrome
+          - firefox
+          - electron
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run Cypress regression tests
+        id: cypress
+        uses: cypress-io/github-action@v7
+        with:
+          command: npm run test:regression -- --browser ${{ matrix.browser }}
+
+      - name: Generate Allure report
+        if: always() && steps.cypress.outcome != 'skipped'
+        run: npm run report:generate
+
+      - name: Upload Cypress and Allure artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-${{ matrix.browser }}-artifacts
+          path: |
+            reports/allure-results
+            reports/allure-report
+            reports/screenshots
+            reports/videos
+          if-no-files-found: ignore
+          retention-days: 7
+
+  cypress-manual:
+    name: Manual Cypress run - ${{ github.event.inputs.test_group }}
+    runs-on: ubuntu-24.04
+
+    if: github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run selected Cypress test group
+        id: cypress
+        uses: cypress-io/github-action@v7
+        with:
+          command: npm run test:${{ github.event.inputs.test_group }}
+
+      - name: Generate Allure report
+        if: always() && steps.cypress.outcome != 'skipped'
+        run: npm run report:generate
+
+      - name: Upload Cypress and Allure artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-manual-${{ github.event.inputs.test_group }}-artifacts
+          path: |
+            reports/allure-results
+            reports/allure-report
+            reports/screenshots
+            reports/videos
+          if-no-files-found: ignore
+          retention-days: 7

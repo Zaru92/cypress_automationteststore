@@ -6,6 +6,8 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "test:full": "cypress run",
+    "test:single": "cypress run --spec",
     "cy:run:chrome": "cypress run --browser chrome",
     "cy:run:firefox": "cypress run --browser firefox",
     "test:smoke": "cypress run --expose grepTags=@smoke",
@@ -14,9 +16,6 @@
     "test:api": "cypress run --expose grepTags=@api",
     "test:mocked": "cypress run --expose grepTags=@mocked",
     "test:negative": "cypress run --expose grepTags=@negative",
-    "test:ui:smoke": "npm run test:ui && npm run test:smoke",
-    "test:api:negative": "npm run test:api && npm run test:negative",
-    "test:mocked:negative": "npm run test:mocked && npm run test:negative",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -28,7 +27,10 @@
     "test:allure": "npm run report:clean && cypress run",
     "report:generate": "allure generate reports/allure-results --output reports/allure-report",
     "report:open": "allure open reports/allure-report",
-    "test:allure:open": "npm run test:allure && npm run report:generate && npm run report:open"
+    "test:ci": "npm run report:clean && npm run cy:run",
+    "test:ci:smoke": "npm run report:clean && npm run test:smoke",
+    "test:ci:regression": "npm run report:clean && npm run test:regression",
+    "test:allure:open": "npm run test:ci && npm run report:generate && npm run report:open"
   },
   "keywords": [],
   "author": "",
@@ -50,7 +52,7 @@
     "lint-staged": "^17.0.5",
     "prettier": "3.8.3",
     "rimraf": "^6.1.3",
-    "typescript": "^6.0.3",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.4"
   }
 }

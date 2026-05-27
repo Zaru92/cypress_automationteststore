@@ -1,5 +1,5 @@
 import { setAllureMetadata } from '../../../support/allure';
-import { buildProductSearchData } from '@test-data/factories/product-search.factory';
+import { buildProductSearchData } from '../../../test-data/factories/product-search.factory';
 
 describe('Product Details', { tags: ['@ui', '@regression'] }, () => {
   it('should open product details page from search results', () => {

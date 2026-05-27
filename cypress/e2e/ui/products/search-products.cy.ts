@@ -1,5 +1,5 @@
 import { setAllureMetadata } from '../../../support/allure';
-import { buildProductSearchData } from '@test-data/factories/product-search.factory';
+import { buildProductSearchData } from '../../../test-data/factories/product-search.factory';
 
 describe('Product Search', { tags: ['@ui', '@smoke'] }, () => {
   it('should display products matching search phrase', () => {
