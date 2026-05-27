@@ -1,6 +1,6 @@
 import { buildProductSearchData } from '@test-data/factories/product-search.factory';
 
-describe('Product Search @ui @smoke', () => {
+describe('Product Search', { tags: ['@ui', '@smoke'] }, () => {
   it('should display products matching search phrase', () => {
     const { keyword } = buildProductSearchData();
 

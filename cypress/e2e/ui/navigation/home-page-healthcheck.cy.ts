@@ -1,4 +1,4 @@
-describe('Home Page Healthcheck @ui @smoke', () => {
+describe('Home Page Healthcheck', { tags: ['@ui', '@smoke'] }, () => {
   it('should open Automation Test Store home page', () => {
     cy.openHomePage();
 

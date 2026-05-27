@@ -1,6 +1,6 @@
 import { testProducts } from '../../../test-data/static/test-products';
 
-describe('Shopping Cart Summary @ui @regression', () => {
+describe('Shopping Cart Summary', { tags: ['@ui', '@regression'] }, () => {
   it('should display correct quantity and total for added product', () => {
     const product = testProducts.curlsToStraightShampoo;
 

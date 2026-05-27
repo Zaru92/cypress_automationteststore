@@ -1,7 +1,7 @@
 import { expectProductSearchResultsResponse } from '../../api/validators/product-response.validator';
 import { testProducts } from '../../test-data/static/test-products';
 
-describe('Products API / HTTP Routes @api @smoke', () => {
+describe('Products API / HTTP Routes', { tags: ['@api', '@smoke'] }, () => {
   it('should return product search results page for valid keyword', () => {
     const product = testProducts.curlsToStraightShampoo;
 

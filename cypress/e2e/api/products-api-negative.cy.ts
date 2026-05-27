@@ -4,7 +4,7 @@ import {
 } from '../../api/validators/product-response.validator';
 import { productSearchCriteria } from '../../test-data/static/test-search-criteria';
 
-describe('Products API Negative Scenarios @api @negative @regression', () => {
+describe('Products API Negative Scenarios', { tags: ['@api', '@negative', '@regression'] }, () => {
   it('should not return known product for non-existing search keyword', () => {
     const searchCriteria = productSearchCriteria.noResults;
 

@@ -1,6 +1,12 @@
 import { defineConfig } from 'cypress';
+import { plugin as registerGrepPlugin } from '@cypress/grep/plugin';
 
 export default defineConfig({
+  expose: {
+    grepFilterSpecs: true,
+    grepOmitFiltered: true,
+  },
+
   e2e: {
     baseUrl: 'https://automationteststore.com',
     specPattern: 'cypress/e2e/**/*.cy.ts',
@@ -25,6 +31,12 @@ export default defineConfig({
     retries: {
       runMode: 1,
       openMode: 0,
+    },
+
+    setupNodeEvents(_on, config) {
+      registerGrepPlugin(config);
+
+      return config;
     },
   },
 });

@@ -1,4 +1,4 @@
-describe('Checkout Negative Scenarios @ui @negative @regression', () => {
+describe('Checkout Negative Scenarios', { tags: ['@ui', '@negative', '@regression'] }, () => {
   it('should not allow checkout when shopping cart is empty', () => {
     cy.openShoppingCart();
 
