@@ -34,12 +34,13 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run Cypress smoke tests
+        id: cypress
         uses: cypress-io/github-action@v7
         with:
           command: npm run test:ci:smoke
 
       - name: Generate Allure report
-        if: always()
+        if: always() && steps.cypress.outcome != 'skipped'
         run: npm run report:generate
 
       - name: Upload Cypress and Allure artifacts
@@ -74,13 +75,14 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run Cypress regression tests
+        id: cypress
         uses: cypress-io/github-action@v7
         with:
           browser: ${{ matrix.browser }}
           command: npm run test:ci:regression
 
       - name: Generate Allure report
-        if: always()
+        if: always() && steps.cypress.outcome != 'skipped'
         run: npm run report:generate
 
       - name: Upload Cypress and Allure artifacts
@@ -110,12 +112,13 @@ jobs:
         run: npm run report:clean
 
       - name: Run selected Cypress test group
+        id: cypress
         uses: cypress-io/github-action@v7
         with:
           command: npm run test:${{ github.event.inputs.test_group }}
 
       - name: Generate Allure report
-        if: always()
+        if: always() && steps.cypress.outcome != 'skipped'
         run: npm run report:generate
 
       - name: Upload Cypress and Allure artifacts
