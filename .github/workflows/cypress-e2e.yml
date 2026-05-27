@@ -74,12 +74,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Clean reports
+        run: npm run report:clean
+
       - name: Run Cypress regression tests
         id: cypress
         uses: cypress-io/github-action@v7
         with:
-          browser: ${{ matrix.browser }}
-          command: npm run test:ci:regression
+          command: npm run test:regression -- --browser ${{ matrix.browser }}
 
       - name: Generate Allure report
         if: always() && steps.cypress.outcome != 'skipped'
