@@ -1,4 +1,4 @@
-import type { LoginCredentials } from './user.types';
+import type { LoginCredentials, RegistrationData } from './user.types';
 import type { HtmlApiResponse } from './api.types';
 
 declare global {
@@ -78,6 +78,26 @@ declare global {
        * Verifies that login error is visible.
        */
       shouldSeeLoginError(): Chainable<void>;
+
+      /**
+       * Opens registration page.
+       */
+      openRegisterPage(): Chainable<void>;
+
+      /**
+       * Verifies that registration page is visible.
+       */
+      shouldSeeRegisterPage(): Chainable<void>;
+
+      /**
+       * Fills out the registration form with provided data and submits it.
+       */
+      registerUser(data: RegistrationData): Chainable<void>;
+
+      /**
+       * Verifies that the account-created confirmation page is visible.
+       */
+      shouldSeeAccountCreated(): Chainable<void>;
 
       /**
        * Opens shopping cart page.

@@ -4,7 +4,13 @@ import {
   verifyLoginErrorFlow,
   verifyLoginPageIsVisibleFlow,
 } from '../../flows/auth/login.flow';
-import type { LoginCredentials } from '../../types/user.types';
+import {
+  openRegisterPageFlow,
+  registerUserFlow,
+  verifyAccountCreatedFlow,
+  verifyRegisterPageIsVisibleFlow,
+} from '../../flows/auth/register.flow';
+import type { LoginCredentials, RegistrationData } from '../../types/user.types';
 import { logStep } from '../log';
 
 Cypress.Commands.add('openLoginPage', () => {
@@ -25,4 +31,24 @@ Cypress.Commands.add('loginWithCredentials', (credentials: LoginCredentials) => 
 Cypress.Commands.add('shouldSeeLoginError', () => {
   logStep('shouldSeeLoginError', 'Verify login error is visible');
   verifyLoginErrorFlow();
+});
+
+Cypress.Commands.add('openRegisterPage', () => {
+  logStep('openRegisterPage', 'Open register page');
+  openRegisterPageFlow();
+});
+
+Cypress.Commands.add('shouldSeeRegisterPage', () => {
+  logStep('shouldSeeRegisterPage', 'Verify register page is visible');
+  verifyRegisterPageIsVisibleFlow();
+});
+
+Cypress.Commands.add('registerUser', (data: RegistrationData) => {
+  logStep('registerUser', `Register user: ${data.loginName}`);
+  registerUserFlow(data);
+});
+
+Cypress.Commands.add('shouldSeeAccountCreated', () => {
+  logStep('shouldSeeAccountCreated', 'Verify account created confirmation is visible');
+  verifyAccountCreatedFlow();
 });
