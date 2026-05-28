@@ -1,0 +1,18 @@
+export const registerSelectors = {
+  form: '#AccountFrm',
+  firstNameInput: '#AccountFrm_firstname',
+  lastNameInput: '#AccountFrm_lastname',
+  emailInput: '#AccountFrm_email',
+  telephoneInput: '#AccountFrm_telephone',
+  address1Input: '#AccountFrm_address_1',
+  cityInput: '#AccountFrm_city',
+  countrySelect: '#AccountFrm_country_id',
+  zoneSelect: '#AccountFrm_zone_id',
+  postcodeInput: '#AccountFrm_postcode',
+  loginNameInput: '#AccountFrm_loginname',
+  passwordInput: '#AccountFrm_password',
+  confirmPasswordInput: '#AccountFrm_confirm',
+  privacyPolicyCheckbox: '#AccountFrm_agree',
+  continueButton: '#AccountFrm button[title="Continue"]',
+  accountCreatedHeading: '.maintext',
+} as const;
