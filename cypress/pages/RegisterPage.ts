@@ -1,6 +1,7 @@
 import { BasePage } from './BasePage';
 import { registerSelectors } from '../selectors/register.selectors';
 import type { RegistrationData } from '../types/user.types';
+import { commonSelectors } from '../selectors/common.selectors';
 
 class RegisterPage extends BasePage {
   open(): void {
@@ -46,8 +47,8 @@ class RegisterPage extends BasePage {
   assertAccountCreated(): void {
     cy.location('href').should('include', 'account/success');
 
-    this.shouldBeVisible(registerSelectors.accountCreatedHeading);
-    this.getElement(registerSelectors.accountCreatedHeading).should(
+    this.shouldBeVisible(commonSelectors.heading);
+    this.getElement(commonSelectors.heading).should(
       'contain.text',
       'Your Account Has Been Created',
     );

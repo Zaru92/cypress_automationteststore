@@ -16,3 +16,15 @@ export const loginWithCredentialsFlow = (credentials: LoginCredentials): void =>
 export const verifyLoginErrorFlow = (): void => {
   loginPage.shouldDisplayLoginError();
 };
+
+export const verifyUserIsLoggedInFlow = (firstName: string): void => {
+  loginPage.assertLogin(firstName);
+};
+
+export const logoutFlow = (): void => {
+  loginPage.logout();
+};
+
+export const verifyUserIsLoggedOutFlow = (firstName: string): void => {
+  loginPage.assertLogout(firstName);
+};

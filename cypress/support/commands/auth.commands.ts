@@ -3,6 +3,9 @@ import {
   openLoginPageFlow,
   verifyLoginErrorFlow,
   verifyLoginPageIsVisibleFlow,
+  verifyUserIsLoggedInFlow,
+  logoutFlow,
+  verifyUserIsLoggedOutFlow,
 } from '../../flows/auth/login.flow';
 import {
   openRegisterPageFlow,
@@ -51,4 +54,19 @@ Cypress.Commands.add('registerUser', (data: RegistrationData) => {
 Cypress.Commands.add('shouldSeeAccountCreated', () => {
   logStep('shouldSeeAccountCreated', 'Verify account created confirmation is visible');
   verifyAccountCreatedFlow();
+});
+
+Cypress.Commands.add('shouldSeeLoggedInUser', (firstName: string) => {
+  logStep('shouldSeeLoggedInUser', `Verify user is logged in as: ${firstName}`);
+  verifyUserIsLoggedInFlow(firstName);
+});
+
+Cypress.Commands.add('logoutUser', () => {
+  logStep('logOutUser', `Log out user`);
+  logoutFlow();
+});
+
+Cypress.Commands.add('shouldSeeUserIsLoggedOut', (firstName: string) => {
+  logStep('shouldSeeLoggedOutMessage', `Verify user ${firstName} is logged out`);
+  verifyUserIsLoggedOutFlow(firstName);
 });

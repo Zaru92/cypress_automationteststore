@@ -14,5 +14,4 @@ export const registerSelectors = {
   confirmPasswordInput: '#AccountFrm_confirm',
   privacyPolicyCheckbox: '#AccountFrm_agree',
   continueButton: '#AccountFrm button[title="Continue"]',
-  accountCreatedHeading: '.maintext',
 } as const;

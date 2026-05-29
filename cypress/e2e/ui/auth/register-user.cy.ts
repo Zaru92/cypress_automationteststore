@@ -2,6 +2,14 @@ import { setAllureMetadata } from '../../../support/allure';
 import { buildRegistrationData } from '../../../test-data/factories/user-registration.factory';
 
 describe('User Registration', { tags: ['@ui', '@smoke'] }, () => {
+  let firstName: string;
+
+  after(() => {
+    cy.openLoginPage();
+    cy.logoutUser();
+    cy.shouldSeeUserIsLoggedOut(firstName);
+  });
+
   it('should register a new user with valid data', () => {
     setAllureMetadata({
       epic: 'Authentication',
@@ -19,5 +27,7 @@ describe('User Registration', { tags: ['@ui', '@smoke'] }, () => {
     cy.registerUser(registrationData);
 
     cy.shouldSeeAccountCreated();
+
+    firstName = registrationData.firstName;
   });
 });
