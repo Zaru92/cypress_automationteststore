@@ -148,6 +148,21 @@ declare global {
        * Verifies that product search server error message is visible.
        */
       shouldSeeProductSearchServerErrorMessage(): Chainable<void>;
+
+      /**
+       * Verifies that user is logged in and see account page.
+       */
+      shouldSeeLoggedInUser(firstName: string): Chainable<void>;
+
+      /**
+       * Log out user.
+       */
+      logoutUser(): Chainable<void>;
+      /**
+       *
+       * Verifies that user is logged out and see proper message.
+       */
+      shouldSeeUserIsLoggedOut(firstName: string): Chainable<void>;
     }
   }
 }
