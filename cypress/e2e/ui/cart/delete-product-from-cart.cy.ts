@@ -2,9 +2,9 @@ import { setAllureMetadata } from '../../../support/allure';
 import { testProducts } from '../../../test-data/static/test-products';
 
 describe('Shopping Cart', { tags: ['@ui', '@regression'] }, () => {
-  before(() => {
-    const product = testProducts.curlsToStraightShampoo;
+  const product = testProducts.curlsToStraightShampoo;
 
+  beforeEach(() => {
     cy.openHomePage();
 
     cy.addProductToCart(product.name, product.searchKeyword);
@@ -14,8 +14,6 @@ describe('Shopping Cart', { tags: ['@ui', '@regression'] }, () => {
   });
 
   it('should delete selected product from cart', () => {
-    const product = testProducts.curlsToStraightShampoo;
-
     setAllureMetadata({
       epic: 'E-commerce',
       feature: 'Shopping Cart',
