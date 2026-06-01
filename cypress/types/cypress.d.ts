@@ -163,6 +163,16 @@ declare global {
        * Verifies that user is logged out and see proper message.
        */
       shouldSeeUserIsLoggedOut(firstName: string): Chainable<void>;
+
+      /**
+       * Deletes product from cart.
+       */
+      deleteProductFromCart(productName: string): Chainable<void>;
+
+      /**
+       * Verifies that product is not visible in cart.
+       */
+      shouldNotSeeProductInCart(productName: string): Chainable<void>;
     }
   }
 }

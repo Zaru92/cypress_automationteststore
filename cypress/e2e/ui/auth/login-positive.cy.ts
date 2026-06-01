@@ -6,7 +6,7 @@ describe('Login Positive Scenarios', { tags: ['@ui', '@smoke'] }, () => {
   let credentials: LoginCredentials;
   let firstName: string;
 
-  before(() => {
+  beforeEach(() => {
     const registrationData = buildRegistrationData();
 
     cy.openRegisterPage();

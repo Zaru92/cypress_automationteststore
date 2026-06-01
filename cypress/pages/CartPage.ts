@@ -63,11 +63,21 @@ class CartPage extends BasePage {
     this.getElement(cartSelectors.checkoutButton).should('not.exist');
   }
 
+  deleteProduct(productName: string): void {
+    this.getProductRow(productName).within(() => {
+      this.clickElement(cartSelectors.deleteProductButton);
+    });
+  }
+
   private getProductRow(productName: string): Cypress.Chainable<JQuery<HTMLTableRowElement>> {
     return cy
       .contains(cartSelectors.cartProductLinks, exactTextPattern(productName))
       .parents('tr')
       .first();
+  }
+
+  shouldNotContainProduct(productName: string): void {
+    cy.contains(cartSelectors.cartProductLinks, exactTextPattern(productName)).should('not.exist');
   }
 }
 
