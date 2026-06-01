@@ -1,16 +1,15 @@
 import type { HeaderNavLink } from '../../types/navigation.types';
-import { headerSelectors } from '../../selectors/header.selectors';
 
 export const headerNavLinks: readonly HeaderNavLink[] = [
   {
     name: 'Home',
-    selector: headerSelectors.links.home,
+    key: 'home',
     expectedRoute: '',
     expectedHeading: 'Featured',
   },
   {
     name: 'Specials',
-    selector: headerSelectors.links.specials,
+    key: 'specials',
     expectedRoute: 'rt=product/special',
     expectedHeading: 'Special Offers',
   },
@@ -18,25 +17,25 @@ export const headerNavLinks: readonly HeaderNavLink[] = [
   // land on the login page for an unauthenticated visitor.
   {
     name: 'Account',
-    selector: headerSelectors.links.account,
+    key: 'account',
     expectedRoute: 'rt=account/login',
     expectedHeading: 'Account Login',
   },
   {
     name: 'Login or register',
-    selector: headerSelectors.links.loginRegister,
+    key: 'loginRegister',
     expectedRoute: 'rt=account/login',
     expectedHeading: 'Account Login',
   },
   {
     name: 'Cart',
-    selector: headerSelectors.links.cart,
+    key: 'cart',
     expectedRoute: 'rt=checkout/cart',
     expectedHeading: 'Shopping Cart',
   },
   {
     name: 'Checkout',
-    selector: headerSelectors.links.checkout,
+    key: 'checkout',
     expectedRoute: 'rt=checkout/cart',
     expectedHeading: 'Shopping Cart',
   },

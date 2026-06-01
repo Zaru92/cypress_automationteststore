@@ -1,9 +1,10 @@
 import { BasePage } from './BasePage';
 import { headerSelectors } from '../selectors/header.selectors';
+import type { HeaderLinkKey } from '../types/navigation.types';
 
 class HeaderNavPage extends BasePage {
-  clickLink(selector: string): void {
-    this.clickElement(selector);
+  clickLink(key: HeaderLinkKey): void {
+    this.clickElement(headerSelectors.links[key]);
   }
 
   assertOnPage(expectedRoute: string, expectedHeading: string): void {
