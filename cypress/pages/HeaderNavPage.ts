@@ -14,6 +14,7 @@ class HeaderNavPage extends BasePage {
     }
 
     this.getElement(headerSelectors.pageHeading)
+      .first()
       .should('be.visible')
       .and('contain.text', expectedHeading);
   }

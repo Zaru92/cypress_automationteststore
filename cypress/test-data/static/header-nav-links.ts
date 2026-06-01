@@ -14,6 +14,8 @@ export const headerNavLinks: readonly HeaderNavLink[] = [
     expectedRoute: 'rt=product/special',
     expectedHeading: 'Special Offers',
   },
+  // Account and "Login or register" are distinct header entry points that both
+  // land on the login page for an unauthenticated visitor.
   {
     name: 'Account',
     selector: headerSelectors.links.account,
