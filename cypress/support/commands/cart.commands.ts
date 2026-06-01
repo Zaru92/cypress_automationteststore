@@ -1,4 +1,8 @@
 import {
+  deleteProductFromCartFlow,
+  verifyProductIsDeletedFromCartFlow,
+} from '../../flows/cart/delete-product-from-cart.flow';
+import {
   addProductToCartFlow,
   verifyCorrectProductTotalInCartFlow,
   verifyProductInCartFlow,
@@ -33,4 +37,14 @@ Cypress.Commands.add('shouldSeeProductQuantityInCart', (productName: string, qua
 Cypress.Commands.add('shouldSeeCorrectProductTotalInCart', (productName: string) => {
   logStep('shouldSeeCorrectProductTotalInCart', `Verify product total in cart: ${productName}`);
   verifyCorrectProductTotalInCartFlow(productName);
+});
+
+Cypress.Commands.add('deleteProductFromCart', (productName: string) => {
+  logStep('deleteProductFromCart', `Delete product from cart: ${productName}`);
+  deleteProductFromCartFlow(productName);
+});
+
+Cypress.Commands.add('shouldNotSeeProductInCart', (productName: string) => {
+  logStep('shouldNotSeeProductInCart', `Verify product is not visible in cart: ${productName}`);
+  verifyProductIsDeletedFromCartFlow(productName);
 });
