@@ -1,5 +1,6 @@
 import type { LoginCredentials, RegistrationData } from './user.types';
 import type { HtmlApiResponse } from './api.types';
+import type { HeaderNavLink } from './navigation.types';
 
 declare global {
   namespace Cypress {
@@ -13,6 +14,16 @@ declare global {
        * Verifies that Automation Test Store home page is visible.
        */
       shouldSeeHomePage(): Chainable<void>;
+
+      /**
+       * Opens a navigation link from the site header.
+       */
+      openHeaderLink(link: HeaderNavLink): Chainable<void>;
+
+      /**
+       * Verifies that the given header link opened its correct destination page.
+       */
+      shouldSeeHeaderPage(link: HeaderNavLink): Chainable<void>;
 
       /**
        * Searches product by keyword using the global search input.
