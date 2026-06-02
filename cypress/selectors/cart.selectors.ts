@@ -10,4 +10,5 @@ export const cartSelectors = {
     '#cart_checkout1, .contentpanel #cart_checkout1, .contentpanel a[href*="checkout/shipping"]',
   continueButton: 'a[title="Continue"], a[href*="index/home"]',
   deleteProductButton: '.fa-trash-o',
+  proceedToCheckoutButton: '#cart_checkout1',
 } as const;
