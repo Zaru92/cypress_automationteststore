@@ -129,3 +129,50 @@ jobs:
             reports/videos
           if-no-files-found: ignore
           retention-days: 7
+
+  publish-report:
+    name: Publish Allure report to Pages
+    runs-on: ubuntu-24.04
+
+    if: github.event_name == 'push'
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Run Cypress regression tests
+        id: cypress
+        uses: cypress-io/github-action@v7
+        with:
+          command: npm run test:regression -- --browser electron
+        continue-on-error: true
+
+      - name: Restore previous Allure history
+        uses: actions/checkout@v6
+        with:
+          ref: gh-pages
+          path: gh-pages-prev
+        continue-on-error: true
+
+      - name: Seed history into results
+        if: always()
+        run: |
+          mkdir -p reports/allure-results/history
+          if [ -d gh-pages-prev/history ]; then
+            cp -r gh-pages-prev/history/* reports/allure-results/history/ || true
+          fi
+
+      - name: Generate Allure report
+        if: always()
+        run: npm run report:generate
+
+      - name: Deploy report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: reports/allure-report
+          publish_branch: gh-pages
