@@ -11,8 +11,6 @@ project to demonstrate maintainable, layered Cypress automation with CI and repo
 
 **📊 [Live Allure test report](https://zaru92.github.io/cypress_automationteststore/)** — published automatically by CI on every push to `main`.
 
-![Allure report dashboard](docs/assets/allure-dashboard.png)
-
 ## What's covered
 
 | Layer      | Area           | Specs                                               |
