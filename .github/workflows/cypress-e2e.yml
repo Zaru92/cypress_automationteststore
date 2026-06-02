@@ -134,7 +134,8 @@ jobs:
     name: Publish Allure report to Pages
     runs-on: ubuntu-24.04
 
-    if: github.event_name == 'push'
+    needs: cypress-cross-browser
+    if: always() && github.event_name == 'push'
 
     permissions:
       contents: write
@@ -143,12 +144,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Run Cypress regression tests
-        id: cypress
-        uses: cypress-io/github-action@v7
+      - name: Download regression results from all browsers
+        uses: actions/download-artifact@v4
         with:
-          command: npm run test:regression -- --browser electron
-        continue-on-error: true
+          pattern: cypress-*-artifacts
+          path: downloaded-artifacts
+
+      - name: Merge Allure results from all browsers
+        run: |
+          mkdir -p reports/allure-results
+          find downloaded-artifacts -type d -name allure-results \
+            -exec sh -c 'cp -a "$1"/. reports/allure-results/ 2>/dev/null || true' _ {} \;
 
       - name: Restore previous Allure history
         uses: actions/checkout@v6
@@ -158,7 +164,6 @@ jobs:
         continue-on-error: true
 
       - name: Seed history into results
-        if: always()
         run: |
           mkdir -p reports/allure-results/history
           if [ -d gh-pages-prev/history ]; then
@@ -166,11 +171,9 @@ jobs:
           fi
 
       - name: Generate Allure report
-        if: always()
         run: npm run report:generate
 
       - name: Deploy report to GitHub Pages
-        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

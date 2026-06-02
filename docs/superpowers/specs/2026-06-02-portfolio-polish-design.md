@@ -65,11 +65,16 @@ Make the report a clickable public URL: `https://zaru92.github.io/cypress_automa
 
 Approach:
 
-- Add a dedicated **publish job** (or extend the push path of
-  `cypress-e2e.yml`) that, on push to `main`, runs a representative suite once
-  (regression, single browser to keep it fast/cheap), generates the Allure
-  report, and deploys `reports/allure-report` to GitHub Pages.
-- Use a single-report publish (avoid the 3-way matrix producing three reports).
+- Add a dedicated **publish job** that runs on push to `main`, **depends on the
+  existing `cypress-cross-browser` matrix** (`needs:` + `if: always()`),
+  downloads all three browsers' uploaded `allure-results`, merges them into one
+  `allure-results` directory, generates a single combined Allure report, and
+  deploys `reports/allure-report` to GitHub Pages.
+- The publish job must **not re-run tests** — it consumes the matrix's results.
+  Re-running a single browser (e.g. Electron only) would both duplicate work and
+  publish a report that masks Chrome/Firefox-specific failures, making the
+  "live report" misleading when the workflow actually failed. The published
+  report must reflect the **full** cross-browser regression result.
 - **History/trends:** preserve Allure history across runs so the report shows
   trend graphs (restore previous `history/` before `allure generate`, e.g. via
   the gh-pages deploy keeping prior files). This is desirable but secondary —
@@ -100,9 +105,12 @@ required.
 
 - GitHub Pages must be enabled for the repo (manual settings step or via the
   deploy action's permissions). Document this in the plan.
-- The publish job runs against the live public site; this matches existing CI
-  behavior, so no new flakiness category is introduced.
-- Keep the publish suite small (one browser) to limit CI minutes.
+- The publish job does not run tests itself; it reuses the cross-browser
+  matrix's `allure-results` artifacts, so it adds no extra live-site runs and no
+  new flakiness category.
+- `if: always()` on the publish job ensures the report still publishes when a
+  browser in the matrix fails — that failure must be visible in the report, not
+  hidden by it.
 
 ## Success Criteria
 

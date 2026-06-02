@@ -213,10 +213,15 @@ git commit -m "Add Allure dashboard screenshot for README"
 
 - Modify: `.github/workflows/cypress-e2e.yml` (add a new `publish-report` job)
 
-Add a dedicated job that runs only on push to `main`, runs a single-browser
-regression suite, restores prior Allure history (for trend graphs), generates the
-report, and deploys it to the `gh-pages` branch via `peaceiris/actions-gh-pages`.
-A single job avoids the 3-way matrix producing three separate reports.
+Add a dedicated job that runs on push to `main`, **depends on the existing
+`cypress-cross-browser` matrix**, downloads all three browsers' uploaded
+`allure-results`, merges them into one results directory, restores prior Allure
+history (for trend graphs), generates a single combined report, and deploys it to
+the `gh-pages` branch via `peaceiris/actions-gh-pages`. The job does **not**
+re-run tests — re-running a single browser would duplicate the matrix work and
+publish a report that hides Chrome/Firefox-specific failures, making the live
+report misleading. `if: always()` ensures the report still publishes (showing the
+failures) when a matrix browser fails.
 
 - [ ] **Step 1: Append the `publish-report` job to `.github/workflows/cypress-e2e.yml`**
 
@@ -227,7 +232,8 @@ publish-report:
   name: Publish Allure report to Pages
   runs-on: ubuntu-24.04
 
-  if: github.event_name == 'push'
+  needs: cypress-cross-browser
+  if: always() && github.event_name == 'push'
 
   permissions:
     contents: write
@@ -236,12 +242,17 @@ publish-report:
     - name: Checkout repository
       uses: actions/checkout@v6
 
-    - name: Run Cypress regression tests
-      id: cypress
-      uses: cypress-io/github-action@v7
+    - name: Download regression results from all browsers
+      uses: actions/download-artifact@v4
       with:
-        command: npm run test:regression -- --browser electron
-      continue-on-error: true
+        pattern: cypress-*-artifacts
+        path: downloaded-artifacts
+
+    - name: Merge Allure results from all browsers
+      run: |
+        mkdir -p reports/allure-results
+        find downloaded-artifacts -type d -name allure-results \
+          -exec sh -c 'cp -a "$1"/. reports/allure-results/ 2>/dev/null || true' _ {} \;
 
     - name: Restore previous Allure history
       uses: actions/checkout@v6
@@ -251,7 +262,6 @@ publish-report:
       continue-on-error: true
 
     - name: Seed history into results
-      if: always()
       run: |
         mkdir -p reports/allure-results/history
         if [ -d gh-pages-prev/history ]; then
@@ -259,11 +269,9 @@ publish-report:
         fi
 
     - name: Generate Allure report
-      if: always()
       run: npm run report:generate
 
     - name: Deploy report to GitHub Pages
-      if: always()
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -271,7 +279,7 @@ publish-report:
         publish_branch: gh-pages
 ```
 
-Rationale notes (do not add as comments unless matching file style): `continue-on-error` on the test step ensures the report still publishes even when a test fails (a recruiter seeing a failure-with-report is fine; a missing report is not). `electron` is the bundled browser — no extra setup, fastest.
+Rationale notes (do not add as comments unless matching file style): `needs:` + `if: always()` make the publish job wait for the full Chrome/Firefox/Electron matrix and run even if a browser failed, so the report reflects (not hides) failures. The merge step combines every browser's `allure-results` (result files use unique UUIDs, so no collisions). No test run here — results come from the matrix artifacts.
 
 - [ ] **Step 2: Verify the YAML still parses**
 
@@ -283,10 +291,14 @@ Expected: `YAML valid`
 Run: `grep -n "publish-report\|peaceiris/actions-gh-pages\|publish_branch: gh-pages" .github/workflows/cypress-e2e.yml`
 Expected: three matches (job key, action, publish branch).
 
-- [ ] **Step 4: Verify the other jobs were not altered**
+- [ ] **Step 4: Verify the test-running jobs were not altered**
 
 Run: `grep -c "uses: cypress-io/github-action@v7" .github/workflows/cypress-e2e.yml`
-Expected: `4` (smoke, cross-browser, manual, publish).
+Expected: `3` (smoke, cross-browser, manual). The publish job runs no tests — it
+consumes the matrix artifacts — so it must add a `needs: cypress-cross-browser`:
+
+Run: `grep -c "needs: cypress-cross-browser" .github/workflows/cypress-e2e.yml`
+Expected: `1`.
 
 - [ ] **Step 5: Commit**
 
