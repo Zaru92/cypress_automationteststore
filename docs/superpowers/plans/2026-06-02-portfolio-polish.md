@@ -242,6 +242,17 @@ publish-report:
     - name: Checkout repository
       uses: actions/checkout@v6
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+      env:
+        CYPRESS_INSTALL_BINARY: 0
+
     - name: Download regression results from all browsers
       uses: actions/download-artifact@v4
       with:
@@ -279,7 +290,7 @@ publish-report:
         publish_branch: gh-pages
 ```
 
-Rationale notes (do not add as comments unless matching file style): `needs:` + `if: always()` make the publish job wait for the full Chrome/Firefox/Electron matrix and run even if a browser failed, so the report reflects (not hides) failures. The merge step combines every browser's `allure-results` (result files use unique UUIDs, so no collisions). No test run here — results come from the matrix artifacts.
+Rationale notes (do not add as comments unless matching file style): `needs:` + `if: always()` make the publish job wait for the full Chrome/Firefox/Electron matrix and run even if a browser failed, so the report reflects (not hides) failures. The merge step combines every browser's `allure-results` (result files use unique UUIDs, so no collisions). No test run here — results come from the matrix artifacts. The `setup-node` + `npm ci` steps are required: `report:generate` invokes the local `allure` binary from `node_modules/.bin`, and unlike the Cypress jobs (which install via the Cypress action) this job has no `node_modules` otherwise. `CYPRESS_INSTALL_BINARY: 0` skips the unneeded Cypress browser-binary download since this job runs no tests.
 
 - [ ] **Step 2: Verify the YAML still parses**
 
