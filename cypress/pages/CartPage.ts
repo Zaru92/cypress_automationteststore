@@ -79,6 +79,10 @@ class CartPage extends BasePage {
   shouldNotContainProduct(productName: string): void {
     cy.contains(cartSelectors.cartProductLinks, exactTextPattern(productName)).should('not.exist');
   }
+
+  proceedToCheckout(): void {
+    this.clickElement(cartSelectors.checkoutButton);
+  }
 }
 
 export const cartPage = new CartPage();

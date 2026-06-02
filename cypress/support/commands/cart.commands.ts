@@ -9,6 +9,7 @@ import {
   verifyProductQuantityInCartFlow,
   verifyShoppingCartPageFlow,
 } from '../../flows/cart/add-product-to-cart.flow';
+import { proceedToCheckoutFlow } from '../../flows/checkout/proceed-checkout.flow';
 import { logStep } from '../log';
 
 Cypress.Commands.add('addProductToCart', (productName: string, searchKeyword?: string) => {
@@ -47,4 +48,9 @@ Cypress.Commands.add('deleteProductFromCart', (productName: string) => {
 Cypress.Commands.add('shouldNotSeeProductInCart', (productName: string) => {
   logStep('shouldNotSeeProductInCart', `Verify product is not visible in cart: ${productName}`);
   verifyProductIsDeletedFromCartFlow(productName);
+});
+
+Cypress.Commands.add('proceedToCheckout', () => {
+  logStep('proceedToCheckout', 'Proceed to checkout');
+  proceedToCheckoutFlow();
 });

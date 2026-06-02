@@ -184,6 +184,26 @@ declare global {
        * Verifies that product is not visible in cart.
        */
       shouldNotSeeProductInCart(productName: string): Chainable<void>;
+
+      /**
+       * Proceeds to checkout.
+       */
+      proceedToCheckout(): Chainable<void>;
+
+      /**
+       * Verifies that checkout page is visible.
+       */
+      shouldSeeCheckoutPage(): Chainable<void>;
+
+      /**
+       * Confirms checkout.
+       */
+      confirmCheckout(): Chainable<void>;
+
+      /**
+       * Verifies that order confirmation page is visible.
+       */
+      shouldSeeOrderConfirmationPage(): Chainable<void>;
     }
   }
 }
